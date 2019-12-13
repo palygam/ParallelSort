@@ -21,6 +21,5 @@ public class Main {
         }
         executor.shutdown();
         System.out.println((Arrays.toString(array)));
-
     }
 }

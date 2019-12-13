@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 
 public class ParallelSort implements Callable<int[]> {
     private int[] array;
-    private int[] outputArray;
     private int i;
     private int numberOfChunks;
     int start;
@@ -27,8 +26,7 @@ public class ParallelSort implements Callable<int[]> {
         int[] temp = new int[length];
         System.arraycopy(array, start, temp, 0, length);
         Arrays.sort(temp);
-        outputArray = temp;
         System.out.println("Another thread was executed" + Arrays.toString(temp));
-        return outputArray;
+        return temp;
     }
 }

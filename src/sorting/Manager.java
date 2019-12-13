@@ -3,7 +3,6 @@ package sorting;
 import java.util.Random;
 
 public class Manager {
-    ParallelSort sort = new ParallelSort();
     private final static int numberOfChunks = 10;
     private int[] array;
 
