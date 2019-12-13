@@ -3,20 +3,24 @@ package application;
 import sorting.ParallelSort;
 import sorting.Manager;
 
+import java.util.Arrays;
 import java.util.concurrent.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        final int numberOfChunks = 10;
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         Manager manager = new Manager();
-        int[] array = manager.fillArray(1000);
+        int[] array = manager.fillArray(20);
         ExecutorService executor = Executors.newFixedThreadPool(10);
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numberOfChunks; ++i) {
-            executor.submit(new ParallelSort(array, i, numberOfChunks));}
+        for (int i = 0; i < Manager.getNumberOfChunks(); ++i) {
+            Future future = executor.submit(new ParallelSort(array, i, Manager.getNumberOfChunks()));
+            int chunkSize = (int) Math.ceil(array.length / Manager.getNumberOfChunks());
+            int start = i * chunkSize;
+            int length = Math.min(array.length - start, chunkSize);
+            System.arraycopy(future.get(), 0, array, start, length);
+        }
         executor.shutdown();
-        long timeSpent = System.currentTimeMillis() - startTime;
-        System.out.println(timeSpent);
+        System.out.println((Arrays.toString(array)));
+
     }
 }
