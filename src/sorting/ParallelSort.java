@@ -6,21 +6,16 @@ import java.util.concurrent.Callable;
 public class ParallelSort implements Callable<int[]> {
     private int[] array;
     private int i;
-    private int numberOfChunks;
 
-    public ParallelSort(int[] array, int i, int numberOfChunks) {
+    public ParallelSort(int[] array, int i) {
         this.array = array;
         this.i = i;
-        this.numberOfChunks = numberOfChunks;
     }
 
     @Override
-    public int[] call() throws Exception {
-        int chunkSize = (int) Math.ceil((double)array.length / numberOfChunks);
-        int start = i * chunkSize;
-        int length = Math.min(array.length - start, chunkSize);
-        int[] temp = new int[length];
-        System.arraycopy(array, start, temp, 0, length);
+    public int[] call() {
+        int start = i * Service.getMaxSize();
+        int[] temp = Arrays.copyOfRange(array, start, start + Service.getMaxSize());
         Arrays.sort(temp);
         System.out.println("Another thread was executed" + Arrays.toString(temp));
         return temp;
