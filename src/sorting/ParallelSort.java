@@ -14,8 +14,8 @@ public class ParallelSort implements Callable<int[]> {
 
     @Override
     public int[] call() {
-        int start = index * ArraysManager.MAX_SIZE;
-        array = Arrays.copyOfRange(array, start, start + ArraysManager.MAX_SIZE);
+        int start = index * ArraysManager.MAX_CHUNK_SIZE;
+        array = Arrays.copyOfRange(array, start, start + ArraysManager.MAX_CHUNK_SIZE);
         Arrays.sort(array);
         System.out.println("New thread was executed " + Arrays.toString(array));
         return array;
