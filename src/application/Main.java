@@ -1,3 +1,5 @@
+package application;
+
 import sorting.ParallelSort;
 import sorting.ArraysManager;
 
@@ -10,14 +12,14 @@ import java.util.concurrent.Future;
 public class Main {
 
     public static void main(String[] args) {
-        ArraysManager arraysManager = new ArraysManager(3000);
+        ArraysManager arraysManager = new ArraysManager(30);
         int[] array = arraysManager.fillArray();
-        ExecutorService executor = Executors.newFixedThreadPool(arraysManager.calculateChunksCount());
+        ExecutorService executor = Executors.newFixedThreadPool(arraysManager.getChunksCount());
 
         try {
             for (int i = 0; i < arraysManager.getChunksCount(); ++i) {
                 Future future = executor.submit(new ParallelSort(array, i));
-                System.arraycopy(future.get(), 0, array, i * ArraysManager.getMaxSize(), arraysManager.calculateChunksLength());
+                System.arraycopy(future.get(), 0, array, i * ArraysManager.MAX_SIZE, arraysManager.getChunksLength());
             }
             executor.shutdown();
             System.out.println((Arrays.toString(array)));

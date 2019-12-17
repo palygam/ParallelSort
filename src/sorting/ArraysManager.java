@@ -3,26 +3,23 @@ package sorting;
 import java.util.Random;
 
 public class ArraysManager {
-    private static final int MAX_SIZE = 500;
+    public static final int MAX_SIZE = 5;
     private int[] array;
     private int chunksCount;
-    private int length;
+    private int chunksLength;
 
     public ArraysManager(int length) {
-        this.length = length;
         array = new int[length];
-    }
-
-    public static int getMaxSize() {
-        return MAX_SIZE;
-    }
-
-    public void setChunksCount(int chunksCount) {
-        this.chunksCount = chunksCount;
+        chunksCount = calculateChunksCount();
+        chunksLength = calculateChunksLength();
     }
 
     public int getChunksCount() {
         return chunksCount;
+    }
+
+    public int getChunksLength() {
+        return chunksLength;
     }
 
     public int[] fillArray() {
@@ -32,15 +29,14 @@ public class ArraysManager {
         return array;
     }
 
-    public int calculateChunksCount() {
+    private int calculateChunksCount() {
         if (array.length > MAX_SIZE) {
             chunksCount = (int) Math.ceil((double) array.length / MAX_SIZE);
         }
         return chunksCount;
     }
 
-    public int calculateChunksLength() {
-        length = (int) Math.ceil((double) array.length / chunksCount);
-        return length;
+    private int calculateChunksLength() {
+        return (int) Math.ceil((double) array.length / chunksCount);
     }
 }
